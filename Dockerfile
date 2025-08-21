@@ -5,10 +5,10 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # Proje dosyasını ayrı kopyala
-COPY SwordLoginApi/SwordLoginApi.csproj ./SwordLoginApi/
+COPY LoginApi/LoginApi.csproj ./LoginApi/
 
 # Restore işlemi
-RUN dotnet restore ./SwordLoginApi/SwordLoginApi.csproj
+RUN dotnet restore ./LoginApi/LoginApi.csproj
 
 # Tüm dosyaları kopyala
 COPY . .
@@ -21,4 +21,4 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "SwordLoginApi.dll"]
+ENTRYPOINT ["dotnet", "LoginApi.dll"]
