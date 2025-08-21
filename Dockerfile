@@ -5,10 +5,10 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # Proje dosyasını ayrı kopyala
-COPY LoginApi/LoginApi.csproj ./LoginApi/
+COPY SwordLoginApi/SwordLoginApi.csproj ./SwordLoginApi/
 
 # Restore işlemi
-RUN dotnet restore ./LoginApi/LoginApi.csproj
+RUN dotnet restore ./SwordLoginApi/SwordLoginApi.csproj
 
 # Tüm dosyaları kopyala
 COPY . .
