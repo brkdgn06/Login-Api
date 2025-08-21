@@ -1,16 +1,24 @@
-# ASP.NET Core için çalışma ortamı
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-
-# Derleme ortamı
+# SDK imajı
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+# Çalışma dizini
 WORKDIR /src
+
+# Proje dosyasını ayrı kopyala
+COPY LoginApi/LoginApi.csproj ./LoginApi/
+
+# Restore işlemi
+RUN dotnet restore ./LoginApi/LoginApi.csproj
+
+# Tüm dosyaları kopyala
 COPY . .
-RUN dotnet restore
+
+# Yayınla
+WORKDIR /src/LoginApi
 RUN dotnet publish -c Release -o /app/publish
 
-# Yayınlanan dosyaları çalıştır
-FROM base AS final
+# Runtime imajı
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "SwordloginApi.dll"]
+ENTRYPOINT ["dotnet", "SwordLoginApi.dll"]
